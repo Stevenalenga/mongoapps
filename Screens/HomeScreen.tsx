@@ -3,32 +3,14 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList } from 'r
 import { useTheme } from '../ThemeContext';
 import { FontAwesome } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { handleSearch, clearHistory } from '../components/components';
 
 export default function HomeScreen() {
   const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const [showHistory, setShowHistory] = useState(false);
-
-  const handleSearch = async () => {
-    if (searchQuery.trim()) {
-      const updatedHistory = [searchQuery, ...searchHistory.filter(item => item !== searchQuery)].slice(0, 5);
-      setSearchHistory(updatedHistory);
-      setShowHistory(false);
-      await AsyncStorage.setItem('searchHistory', JSON.stringify(updatedHistory));
-      // Perform search operation here
-      console.log('Searching for:', searchQuery);
-      // Clear the search input
-      setSearchQuery('');
-    }
-  };
-
-  const clearHistory = async () => {
-    setSearchHistory([]);
-    setShowHistory(false);
-    await AsyncStorage.removeItem('searchHistory');
-  };
-
+  
   useEffect(() => {
     const loadSearchHistory = async () => {
       try {
@@ -63,15 +45,19 @@ export default function HomeScreen() {
       borderRadius: 25,
       paddingHorizontal: 15,
       height: 50,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
     },
     searchInput: {
       flex: 1,
       color: theme.colors.text,
       marginRight: 10,
       fontSize: 16,
+      height: '100%',
     },
     searchIcon: {
       padding: 5,
+      marginRight: 5,
     },
     historyContainer: {
       position: 'absolute',
@@ -110,9 +96,9 @@ export default function HomeScreen() {
             value={searchQuery}
             onChangeText={setSearchQuery}
             onFocus={() => setShowHistory(true)}
-            onSubmitEditing={handleSearch}
+            onSubmitEditing={() => handleSearch({ searchQuery, searchHistory, setSearchHistory, setShowHistory })}
           />
-          <TouchableOpacity onPress={handleSearch} style={styles.searchIcon}>
+          <TouchableOpacity onPress={() => handleSearch({ searchQuery, searchHistory, setSearchHistory, setShowHistory })} style={styles.searchIcon}>
             <FontAwesome name="search" size={24} color={theme.colors.text} />
           </TouchableOpacity>
         </View>
@@ -127,7 +113,7 @@ export default function HomeScreen() {
                 onPress={() => {
                   setSearchQuery(item);
                   setShowHistory(false);
-                  handleSearch();
+                  handleSearch({ searchQuery: item, searchHistory, setSearchHistory, setShowHistory });
                 }}
               >
                 <Text style={{ color: theme.colors.text, fontSize: 16 }}>{item}</Text>
@@ -135,7 +121,7 @@ export default function HomeScreen() {
             )}
             keyExtractor={(item, index) => index.toString()}
           />
-          <TouchableOpacity style={styles.clearButton} onPress={clearHistory}>
+          <TouchableOpacity style={styles.clearButton} onPress={() => clearHistory({ setSearchHistory, setShowHistory })}>
             <Text style={{ color: theme.colors.primary, fontSize: 16 }}>Clear All</Text>
           </TouchableOpacity>
         </View>

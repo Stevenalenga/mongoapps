@@ -171,6 +171,9 @@ node_modules/
 .expo/
 dist/
 web-build/
+.android/
+.ios/
+.vscode/
 
 # Native
 *.orig.*
