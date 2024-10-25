@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image, TextInput } from 'react-native';
 import { useTheme } from '../ThemeContext';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -36,6 +36,7 @@ const notifications: Notification[] = [
 export default function NotificationsScreen() {
     const { theme } = useTheme();
     const navigation = useNavigation();
+    const [searchQuery, setSearchQuery] = useState('');
 
     const renderNotification = ({ item }: { item: Notification }) => (
         <TouchableOpacity style={styles.notificationItem}>
@@ -94,6 +95,28 @@ export default function NotificationsScreen() {
             fontSize: 14,
             color: "gray",
         },
+        searchContainer: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            padding: 10,
+            borderBottomWidth: 1,
+            borderBottomColor: theme.colors.border,
+        },
+        searchInput: {
+            flex: 1,
+            height: 40,
+            borderColor: theme.colors.border,
+            borderWidth: 1,
+            borderRadius: 20,
+            paddingHorizontal: 15,
+            paddingLeft: 40,
+            color: theme.colors.text,
+        },
+        searchIcon: {
+            position: 'absolute',
+            left: 25,
+            zIndex: 1,
+        },
     });
 
     return (
@@ -107,6 +130,21 @@ export default function NotificationsScreen() {
                         <FontAwesome name="arrow-left" size={24} color={theme.colors.text} />
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>Notifications</Text>
+                </View>
+                <View style={styles.searchContainer}>
+                    <FontAwesome 
+                        name="search" 
+                        size={20} 
+                        color={theme.colors.text} 
+                        style={styles.searchIcon}
+                    />
+                    <TextInput
+                        style={styles.searchInput}
+                        placeholder="Search notifications..."
+                        placeholderTextColor={theme.colors.text}
+                        value={searchQuery}
+                        onChangeText={setSearchQuery}
+                    />
                 </View>
                 <FlatList
                     data={notifications}

@@ -200,8 +200,8 @@ export default function ProfileScreen() {
             source={{ uri: 'https://i.pravatar.cc/300' }}
             style={styles.avatar}
           />
-          <Text style={styles.name}>Jane Doe</Text>
-          <Text style={styles.username}>@jane_doe</Text>
+          <Text style={styles.name}>James Doe</Text>
+          <Text style={styles.username}>@james_doe</Text>
         </View>
 
         <Animated.View style={[styles.bioContainer, { height: animatedHeight }]}>

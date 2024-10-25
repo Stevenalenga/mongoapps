@@ -64,14 +64,7 @@ export default function MainTabs() {
       <Tab.Screen 
         name="Profile" 
         component={ProfileScreen}
-        options={{
-          header: ({ navigation }) => (
-            <Header
-              username="User"
-              profileImageUrl="https://picsum.photos/200"
-            />
-          ),
-        }}
+        
       />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
