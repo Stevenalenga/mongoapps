@@ -31,7 +31,7 @@ export const handleSearch = async ({ searchQuery, searchHistory, setSearchHistor
     const newHistory = [searchQuery, ...searchHistory.filter(item => item !== searchQuery)];
     
     // Limit history to last 10 items
-    const limitedHistory = newHistory.slice(0, 10);
+    const limitedHistory = newHistory.slice(0, 5);
     
     // Save to AsyncStorage
     await AsyncStorage.setItem('searchHistory', JSON.stringify(limitedHistory));
@@ -61,3 +61,37 @@ export const clearHistory = async ({ setSearchHistory, setShowHistory }) => {
     console.error('Failed to clear search history', error);
   }
 };
+
+
+export const handleInputFocus = async ({ setSearchHistory, setShowHistory } ) => {
+  try {
+    const savedHistory = await AsyncStorage.getItem('searchHistory');
+    if (savedHistory) {
+      setSearchHistory(JSON.parse(savedHistory));
+    }
+    setShowHistory(true);
+  } catch (error) {
+    console.error('Failed to load search history', error);
+  }
+};
+
+
+
+export const handleLocationSelect = (data, details, setSelectedLocation, mapRef) => {
+  const { geometry, name } = details;
+  const location = {
+    latitude: geometry.location.lat,
+    longitude: geometry.location.lng,
+    name: name || data.description
+  };
+  
+  setSelectedLocation(location);
+  
+  // Animate map to new location
+  mapRef.current?.animateToRegion({
+    latitude: location.latitude,
+    longitude: location.longitude,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  }, 1000)
+}
