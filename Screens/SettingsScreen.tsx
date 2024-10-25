@@ -1,5 +1,6 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Switch, ScrollView, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../ThemeContext';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -11,9 +12,47 @@ type RootStackParamList = {
 
 type SettingsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
 
+interface SettingItemProps {
+  icon: string;
+  title: string;
+  description: string;
+  isSwitch?: boolean;
+  value?: boolean;
+  onValueChange?: (value: boolean) => void;
+  onPress?: () => void;
+}
+
+const SettingItem: React.FC<SettingItemProps> = ({ icon, title, description, isSwitch, value, onValueChange, onPress }) => {
+  const { theme } = useTheme();
+  return (
+    <TouchableOpacity onPress={onPress} style={styles.settingItem}>
+      <View style={styles.settingIcon}>
+        <Ionicons name={icon as any} size={24} color={theme.colors.primary} />
+      </View>
+      <View style={styles.settingText}>
+        <Text style={[styles.settingTitle, { color: theme.colors.text }]}>{title}</Text>
+        <Text style={[styles.settingDescription, { color: theme.colors.text }]}>{description}</Text>
+      </View>
+      {isSwitch && (
+        <Switch
+          value={value}
+          onValueChange={onValueChange}
+          trackColor={{ false: "#767577", true: theme.colors.primary }}
+          thumbColor={value ? theme.colors.primary : "#f4f3f4"}
+        />
+      )}
+      {!isSwitch && (
+        <Ionicons name="chevron-forward" size={24} color={theme.colors.text} />
+      )}
+    </TouchableOpacity>
+  );
+};
+
 const SettingsScreen: React.FC = () => {
   const { theme, themeType, setThemeType } = useTheme();
   const navigation = useNavigation<SettingsScreenNavigationProp>();
+  const [notifications, setNotifications] = useState(true);
+  const [locationServices, setLocationServices] = useState(true);
 
   const toggleTheme = () => {
     if (themeType === 'light') setThemeType('dark');
@@ -22,58 +61,153 @@ const SettingsScreen: React.FC = () => {
   };
 
   const handleLogout = () => {
-    // Here you would typically clear any stored user data or tokens
-    // For this example, we'll just navigate to the Login screen
     navigation.navigate('Login');
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <Text style={[styles.text, { color: theme.colors.text }]}>Settings Screen</Text>
-      <TouchableOpacity 
-        style={[styles.button, { backgroundColor: theme.colors.primary }]} 
-        onPress={toggleTheme}
-      >
-        <Text style={styles.buttonText}>Toggle Theme</Text>
+    <ScrollView 
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+      contentContainerStyle={styles.contentContainer}
+    >
+
+      <View style={styles.section}>
+        <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Account</Text>
+        <SettingItem
+          icon="person-outline"
+          title="Profile"
+          description="Manage your account information"
+          onPress={() => console.log('Navigate to Profile')}
+        />
+        <SettingItem
+          icon="lock-closed-outline"
+          title="Security"
+          description="Manage your password and security settings"
+          onPress={() => console.log('Navigate to Security')}
+        />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Preferences</Text>
+        <SettingItem
+          icon="notifications-outline"
+          title="Notifications"
+          description="Manage your notification settings"
+          isSwitch
+          value={notifications}
+          onValueChange={setNotifications}
+        />
+        <SettingItem
+          icon="moon-outline"
+          title="Dark Mode"
+          description="Toggle dark mode on or off"
+          isSwitch
+          value={themeType !== 'light'}
+          onValueChange={toggleTheme}
+        />
+        <SettingItem
+          icon="location-outline"
+          title="Location Services"
+          description="Manage location access for the app"
+          isSwitch
+          value={locationServices}
+          onValueChange={setLocationServices}
+        />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Support</Text>
+        <SettingItem
+          icon="help-circle-outline"
+          title="Help Center"
+          description="Get help and contact support"
+          onPress={() => console.log('Navigate to Help Center')}
+        />
+        <SettingItem
+          icon="document-text-outline"
+          title="Terms of Service"
+          description="Read our terms of service"
+          onPress={() => console.log('Navigate to Terms of Service')}
+        />
+        <SettingItem
+          icon="shield-checkmark-outline"
+          title="Privacy Policy"
+          description="Read our privacy policy"
+          onPress={() => console.log('Navigate to Privacy Policy')}
+        />
+      </View>
+
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Text style={styles.logoutButtonText}>Log Out</Text>
       </TouchableOpacity>
-      <Text style={[styles.text, { color: theme.colors.text }]}>Current Theme: {themeType}</Text>
-      <TouchableOpacity 
-        style={[styles.button, styles.logoutButton]} 
-        onPress={handleLogout}
-      >
-        <Text style={styles.buttonText}>Logout</Text>
-      </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
-  text: {
-    fontSize: 18,
-    marginBottom: 20,
+  contentContainer: {
+    flexGrow: 1,
   },
-  button: {
-    padding: 10,
-    borderRadius: 5,
+  header: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5EA',
+  },
+  headerTitle: {
+    fontSize: 34,
+    fontWeight: 'bold',
+  },
+  section: {
     marginTop: 20,
-    width: 200,
+    borderTopWidth: 1,
+    borderTopColor: '#E5E5EA',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5EA',
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginLeft: 20,
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  settingItem: {
+    flexDirection: 'row',
     alignItems: 'center',
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5EA',
+  },
+  settingIcon: {
+    width: 30,
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  settingText: {
+    flex: 1,
+  },
+  settingTitle: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  settingDescription: {
+    fontSize: 14,
+    marginTop: 2,
   },
   logoutButton: {
-    backgroundColor: '#FF3B30', // A red color for the logout button
-    marginTop: 40, // Add more space above the logout button
+    margin: 20,
+    padding: 15,
+    backgroundColor: '#FF3B30',
+    borderRadius: 10,
+    alignItems: 'center',
   },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
+  logoutButtonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
 
 export default SettingsScreen;
-
