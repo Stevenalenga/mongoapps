@@ -4,9 +4,7 @@ import { ThemeProvider, useTheme } from './ThemeContext';
 import { StatusBar } from 'react-native';
 import Navigation from './Navigation';
 import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
 
-// Polyfill for uuid
 
 
 const App = () => {
@@ -16,6 +14,9 @@ const App = () => {
     </ThemeProvider>
   );
 };
+
+
+
 
 const AppContent = () => {
   const { theme, themeType } = useTheme();

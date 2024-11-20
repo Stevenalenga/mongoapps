@@ -8,7 +8,7 @@ import ProfileScreen from './Screens/ProfileScreen';
 import SettingsScreen from './Screens/SettingsScreen';
 import MessagesScreen from './Screens/MessagesScreen';
 import { useTheme } from './ThemeContext';
-import Header from './Screens/Header/Header';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -23,7 +23,7 @@ export default function MainTabs() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === 'Home') {
+          if (route.name === 'My Maps') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Profile') {
             iconName = focused ? 'person' : 'person-outline';
@@ -43,7 +43,7 @@ export default function MainTabs() {
       })}
     >
       <Tab.Screen 
-        name="Home" 
+        name="My Maps" 
         component={HomeScreen} 
         options={{
           headerRight: () => (

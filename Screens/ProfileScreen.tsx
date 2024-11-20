@@ -28,7 +28,6 @@ export default function ProfileScreen() {
   const { theme } = useTheme();
   const [expanded, setExpanded] = useState(false);
   const [animation] = useState(new Animated.Value(0));
-  const [bioHeight, setBioHeight] = useState(0);
   const [contentHeight, setContentHeight] = useState(0);
 
   const stats: Stat[] = [

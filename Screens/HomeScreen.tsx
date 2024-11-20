@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useTheme } from '../ThemeContext';
 import { FontAwesome } from '@expo/vector-icons';

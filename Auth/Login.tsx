@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Text, TextInput, Alert } from 'reac
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useTheme } from './ThemeContext';
+import { useTheme } from '../ThemeContext';
 
 export default function Login() {
   const navigation = useNavigation<StackNavigationProp<any>>();

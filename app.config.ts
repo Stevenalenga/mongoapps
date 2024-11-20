@@ -19,6 +19,7 @@ interface ExpoConfig {
   assetBundlePatterns?: string[];
   ios?: {
     supportsTablet?: boolean;
+    bundleIdentifier?: string;
   };
   android?: {
     adaptiveIcon?: {
@@ -40,9 +41,7 @@ interface ExpoConfig {
       projectId?: string;
     };
   };
-  runtimeVersion?: {
-    policy: string;
-  };
+  runtimeVersion?: string;
 }
 
 const config: ExpoConfig = {
@@ -65,7 +64,8 @@ const config: ExpoConfig = {
     "**/*"
   ],
   ios: {
-    supportsTablet: true
+    supportsTablet: true,
+    bundleIdentifier: "com.yourcompany.myapp"
   },
   android: {
     adaptiveIcon: {
@@ -87,9 +87,7 @@ const config: ExpoConfig = {
       projectId: "411a8200-b730-4763-b749-2ef550350dfc"
     }
   },
-  runtimeVersion: {
-    policy: "appVersion"
-  }
+  runtimeVersion: "1.0.0",
 };
 
 export default config;

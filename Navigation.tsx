@@ -1,8 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import Login from './Login';
-import SignUp from './SignUp';
+import Login from './Auth/Login';
+import SignUp from './Auth/SignUp';
 import MainTabs from './MainTabs';
 import NotificationsScreen from './Screens/NotificationsScreen';
 import MessagesWindow from './Screens/Messages/MessagesWindow';
