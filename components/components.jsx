@@ -8,17 +8,30 @@ export const CustomMarker = () => {
   const { theme } = useTheme();
 
   return (
-    <View style={{ width: 60, 
-    height: 60, 
-    borderRadius: 30, 
-    backgroundColor: theme.colors.primary, 
-    justifyContent: 'center', alignItems: 'center', 
-    borderWidth: 2, 
-    borderColor: theme.colors.background }}>
-      <Image source={{ uri: 'https://picsum.photos/50' }} 
-      style={{ width: 50,
-       height: 50, 
-       borderRadius: 25 }} />
+    <View style={{ 
+      width: 40, 
+      height: 60, 
+      backgroundColor: theme.colors.primary, 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      borderWidth: 2, 
+      borderColor: theme.colors.background, 
+      borderTopLeftRadius: 20, 
+      borderTopRightRadius: 20, 
+      borderBottomLeftRadius: 20, 
+      borderBottomRightRadius: 0, 
+      transform: [{ rotate: '45deg' }],
+      position: 'relative', // Change to relative positioning
+      bottom: 0, // Align the bottom of the marker to the location point
+      zIndex: 1000 // Ensure it appears above other map elements
+    }}>
+      <View style={{
+        width: 20, 
+        height: 20, 
+        backgroundColor: theme.colors.primary, 
+        borderRadius: 10, 
+        transform: [{ rotate: '-45deg' }]
+      }} />
     </View>
   );
 }

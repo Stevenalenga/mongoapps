@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import HomeScreen from './Screens/HomeScreen';
 import ProfileScreen from './Screens/ProfileScreen';
 import SettingsScreen from './Screens/SettingsScreen';
@@ -47,16 +47,19 @@ export default function MainTabs() {
         component={HomeScreen} 
         options={{
           headerRight: () => (
-            <TouchableOpacity 
-              onPress={() => navigation.navigate('Notifications' as never)}
-              style={{ marginRight: 15 }}
-            >
-              <Icon 
-                name="notifications-outline" 
-                size={24} 
-                color={theme.colors.text} 
-              />
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <TouchableOpacity 
+                onPress={() => navigation.navigate('Notifications' as never)}
+                style={{ marginRight: 15 }}
+              >
+                <Icon 
+                  name="notifications-outline" 
+                  size={24} 
+                  color={theme.colors.text} 
+                />
+              </TouchableOpacity>
+            
+            </View>
           ),
         }}
       />

@@ -2,16 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useTheme } from '../ThemeContext';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { handleSearch, clearHistory, CustomMarker, handleLocationSelect } from '../components/components';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { Drawer } from './Drawer/Drawer';
 
 export default function HomeScreen() {
   const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const [showHistory, setShowHistory] = useState(false);
+  const [drawerVisible, setDrawerVisible] = useState(false);
   const mapRef = useRef<MapView>(null);
   const [selectedLocation, setSelectedLocation] = useState<{
     latitude: number;
@@ -32,6 +34,17 @@ export default function HomeScreen() {
     };
     loadSearchHistory();
   }, []);
+
+  useEffect(() => {
+    if (selectedLocation) {
+      mapRef.current?.animateToRegion({
+        latitude: selectedLocation.latitude,
+        longitude: selectedLocation.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }, 1000);
+    }
+  }, [selectedLocation]);
 
   const styles = StyleSheet.create({
     container: {
@@ -92,6 +105,15 @@ export default function HomeScreen() {
       padding: 15,
       alignItems: 'center',
     },
+    addButton: {
+      position: 'absolute',
+      bottom: 30,
+      right: 30,
+      backgroundColor: theme.colors.primary,
+      borderRadius: 50,
+      padding: 15,
+      zIndex: 1000,
+    },
   });
 
   return (
@@ -113,63 +135,62 @@ export default function HomeScreen() {
               longitude: selectedLocation.longitude
             }}
             title={selectedLocation.name}
+            anchor={{ x: 0.5, y: 1 }} 
           >
-            <CustomMarker />
+            
           </Marker>
         )}
       </MapView>
       
       <View style={styles.header}>
-      <GooglePlacesAutocomplete
-  placeholder="Search location..."
-  onPress={(data, details) => handleLocationSelect(data, details, setSelectedLocation, mapRef)}
-  renderRightButton={() => (
-    <TouchableOpacity 
-      onPress={() => handleSearch({ searchQuery, searchHistory, setSearchHistory, setShowHistory })} 
-      style={styles.searchIcon}
-    >
-      <FontAwesome name="search" size={24} color={theme.colors.text} />
-    </TouchableOpacity>
-  )}
-  query={{
-    key: process.env.GOOGLE_PLACES_API_KEY,
-    language: 'en',
-  }}
-  styles={{
-    container: {
-      flex: 1,
-    },
-    textInput: {
-      ...styles.searchInput,
-      backgroundColor: theme.colors.card,
-      color: theme.colors.text,
-      // Set the placeholder color here using inline style or default text color styling:
-    },
-    textInputContainer: {
-      backgroundColor: 'transparent',
-    },
-    listView: {
-      backgroundColor: theme.colors.card,
-      borderRadius: 10,
-      marginTop: 5,
-    },
-    row: {
-      backgroundColor: theme.colors.card,
-      padding: 13,
-      height: 44,
-      flexDirection: 'row',
-    },
-    description: {
-      color: theme.colors.text,
-    },
-  }}
-  textInputProps={{
-    placeholderTextColor: theme.colors.text + '80', // Sets placeholder color with slight opacity if desired
-  }}
-  enablePoweredByContainer={false}
-  fetchDetails={true}
-/>
-
+        <GooglePlacesAutocomplete
+          placeholder="Search location..."
+          onPress={(data, details) => handleLocationSelect(data, details, setSelectedLocation, mapRef)}
+          renderRightButton={() => (
+            <TouchableOpacity 
+              onPress={() => handleSearch({ searchQuery, searchHistory, setSearchHistory, setShowHistory })} 
+              style={styles.searchIcon}
+            >
+              <FontAwesome name="search" size={24} color={theme.colors.text} />
+            </TouchableOpacity>
+          )}
+          query={{
+            key: process.env.GOOGLE_PLACES_API_KEY,
+            language: 'en',
+          }}
+          styles={{
+            container: {
+              flex: 1,
+            },
+            textInput: {
+              ...styles.searchInput,
+              backgroundColor: theme.colors.card,
+              color: theme.colors.text,
+            },
+            textInputContainer: {
+              backgroundColor: 'transparent',
+            },
+            listView: {
+              backgroundColor: theme.colors.card,
+              borderRadius: 10,
+              marginTop: 5,
+            },
+            row: {
+              backgroundColor: theme.colors.card,
+              padding: 13,
+              height: 44,
+              flexDirection: 'row',
+            },
+            description: {
+              color: theme.colors.text,
+            },
+          }}
+          textInputProps={{
+            placeholderTextColor: theme.colors.text + '80', // Sets placeholder color with slight opacity if desired
+          }}
+          enablePoweredByContainer={false}
+          fetchDetails={true}
+        />
       </View>
 
       {showHistory && searchHistory.length > 0 && (
@@ -198,6 +219,19 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
       )}
+
+      <TouchableOpacity 
+        style={styles.addButton} 
+        onPress={() => setDrawerVisible(true)}
+      >
+        <Ionicons name="add-circle" size={40} color={theme.colors.text} />
+      </TouchableOpacity>
+
+      <Drawer 
+        drawerVisible={drawerVisible} 
+        setDrawerVisible={setDrawerVisible} 
+        selectedLocation={selectedLocation} 
+      />
     </View>
   );
 }
