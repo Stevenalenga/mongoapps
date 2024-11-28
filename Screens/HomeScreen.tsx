@@ -4,7 +4,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { useTheme } from '../ThemeContext';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { handleSearch, clearHistory, CustomMarker, handleLocationSelect } from '../components/components';
+import { handleSearch, clearHistory, CustomMarker, handleLocationSelect } from '../components/custommarker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Drawer } from './Drawer/Drawer';
 

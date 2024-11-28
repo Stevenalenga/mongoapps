@@ -3,7 +3,7 @@ import { View, StyleSheet, PanResponder, Animated,TouchableOpacity } from 'react
 import { useTheme } from '../../ThemeContext';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { LocationDetails } from '../Location/location';
-import SaveLocation from '../Location/locationdetails'; 
+import SaveLocation from '../Location/LocationDetails'; 
 
 interface DrawerProps {
   drawerVisible: boolean;

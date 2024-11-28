@@ -4,6 +4,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useTheme } from '../ThemeContext';
+import { login } from './LoginApi';
 
 export default function Login() {
   const navigation = useNavigation<StackNavigationProp<any>>();
@@ -19,26 +20,40 @@ export default function Login() {
     return emailRegex.test(email) || phoneRegex.test(email);
   };
 
-  const validatePassword = (password: string): string | null => {
-    if (password.includes(' ')) return "Password must not contain whitespaces.";
-    if (!/[A-Z]/.test(password)) return "Password must have at least one uppercase character.";
-    if (!/[a-z]/.test(password)) return "Password must have at least one lowercase character.";
-    if (!/\d/.test(password)) return "Password must contain at least one digit.";
-    if (password.length < 8) return "Password must be at least 8 characters long.";
-    return null;
+  const validatePassword = (password: string): boolean => {
+    if (password.includes(' ')) return false;
+    if (!/[A-Z]/.test(password)) return false;
+    if (!/[a-z]/.test(password)) return false;
+    if (!/\d/.test(password)) return false;
+    if (password.length < 8) return false;
+    return true;
   };
 
   useEffect(() => {
-    setIsFormValid(validateEmail(email) && validatePassword(password) === null);
+    setIsFormValid(validateEmail(email) && validatePassword(password));
   }, [email, password]);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (isFormValid) {
-      // Here you would typically make an API call to verify credentials
-      // For this example, we'll just simulate a successful login
-      setEmail('');
-      setPassword('');
-      navigation.navigate("MainTabs" as never);
+      try {
+        const token = await login(email, password);
+        console.log('Login successful, token:', token);
+        setEmail('');
+        setPassword('');
+        navigation.navigate("MainTabs" as never);
+      } catch (error) {
+        if (error instanceof Error) {
+          if (error.message === 'Network Error') {
+            Alert.alert('Network Error', 'Please check your internet connection and try again.');
+          } else if (error.message === 'Incorrect username or password') {
+            Alert.alert('Login Failed', 'Incorrect username or password. Please try again.');
+          } else {
+            Alert.alert('Login Failed', error.message);
+          }
+        } else {
+          Alert.alert('Login Failed', 'An unknown error occurred.');
+        }
+      }
     } else {
       Alert.alert('Invalid Login', 'Please enter a valid email and password.');
     }

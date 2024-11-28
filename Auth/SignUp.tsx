@@ -4,6 +4,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useTheme } from '../ThemeContext';
+import { signUp } from './SignUpApi';
 
 type RootStackParamList = {
   Login: undefined;
@@ -41,19 +42,21 @@ export default function SignUp() {
     );
   }, [email, password, confirmPassword]);
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (isFormValid) {
-      // Here you would typically make an API call to create a new user
-      // For this example, we'll just simulate a successful sign up
-      Alert.alert('Success', 'Account created successfully!', [
-        {
-          text: 'OK',
-          onPress: () => {
-            // Navigate to the Home screen after the user dismisses the alert
-            navigation.navigate('MainTabs' as never);
+      try {
+        const response = await signUp(email, email, password);
+        Alert.alert('Success', 'Account created successfully!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              navigation.navigate('MainTabs' as never);
+            }
           }
-        }
-      ]);
+        ]);
+      } catch (error) {
+        Alert.alert('Sign Up Failed', (error as Error).message);
+      }
     } else {
       Alert.alert('Invalid Sign Up', 'Please check your information and try again.');
     }
