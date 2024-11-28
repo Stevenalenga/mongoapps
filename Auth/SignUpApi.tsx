@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_BASE_URL = 'http://10.24.8.59:8000';
+const API_BASE_URL = process.env.API_BASE_URL;
 
 //process.env.API_BASE_URL
 
@@ -15,6 +15,10 @@ export const signUp = async (username: string, email: string, password: string) 
         if (axios.isAxiosError(error)) {
             switch (error.response?.status) {
                 case 400:
+                    if (error.response?.data?.detail === 'Username already exists') {
+                        console.error('Username already exists');
+                        throw new Error('Username already exists');
+                    }
                     console.error('Bad Request');
                     throw new Error('Bad Request');
                 case 401:

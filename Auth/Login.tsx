@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, TextInput, Alert } from 'react-native';
+import { View, TouchableOpacity, Text, TextInput, Alert } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useTheme } from '../ThemeContext';
 import { login } from './LoginApi';
+import { validateEmail, validatePassword } from '../Components/Validators'
+import createStyles from '../Styles/LoginStyles';
 
 export default function Login() {
   const navigation = useNavigation<StackNavigationProp<any>>();
@@ -13,21 +15,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
-    return emailRegex.test(email) || phoneRegex.test(email);
-  };
-
-  const validatePassword = (password: string): boolean => {
-    if (password.includes(' ')) return false;
-    if (!/[A-Z]/.test(password)) return false;
-    if (!/[a-z]/.test(password)) return false;
-    if (!/\d/.test(password)) return false;
-    if (password.length < 8) return false;
-    return true;
-  };
+  const styles = createStyles();
 
   useEffect(() => {
     setIsFormValid(validateEmail(email) && validatePassword(password));
@@ -59,86 +47,7 @@ export default function Login() {
     }
   };
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: 20,
-      backgroundColor: theme.colors.background,
-    },
-    inputContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      width: '100%',
-      height: 50,
-      borderColor: theme.colors.border,
-      borderWidth: 1,
-      marginBottom: 15,
-      borderRadius: 10,
-    },
-    input: {
-      flex: 1,
-      height: '100%',
-      paddingLeft: 15,
-      paddingRight: 45,
-      color: theme.colors.text,
-      fontSize: 16,
-    },
-    eyeIcon: {
-      position: 'absolute',
-      right: 15,
-      height: '100%',
-      justifyContent: 'center',
-    },
-    loginButton: {
-      backgroundColor: theme.colors.primary,
-      padding: 15,
-      borderRadius: 25,
-      width: '100%',
-      alignItems: 'center',
-    },
-    loginButtonText: {
-      color: '#ffffff',
-      fontSize: 18,
-      fontWeight: 'bold',
-    },
-    socialButton: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: 15,
-      borderRadius: 25,
-      width: '100%',
-      marginTop: 15,
-    },
-    facebookButton: {
-      backgroundColor: '#3b5998',
-    },
-    googleButton: {
-      backgroundColor: '#db4a39',
-    },
-    socialIcon: {
-      marginRight: 10,
-      color: '#ffffff',
-    },
-    socialButtonText: {
-      color: '#ffffff',
-      fontSize: 16,
-      flex: 1,
-      textAlign: 'center',
-    },
-    signUpContainer: {
-      marginTop: 20,
-    },
-    signUpText: {
-      color: theme.colors.text,
-    },
-    signUpLink: {
-      color: theme.colors.primary,
-      fontWeight: 'bold',
-    },
-  });
+  
 
   return (
     <View style={styles.container}>

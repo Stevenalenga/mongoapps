@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_BASE_URL = "http://10.24.8.59:8000/api/v3/login"
+const API_BASE_URL = `${process.env.API_BASE_URL}/api/v3/login`;
 
 // Function to call the login endpoint and store JWT token
 export const login = async (username: string, password: string) => {
