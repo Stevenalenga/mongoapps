@@ -13,17 +13,23 @@ export default function Login() {
   const [isFormValid, setIsFormValid] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const validateEmail = (email: string) => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+    return emailRegex.test(email) || phoneRegex.test(email);
   };
 
-  const validatePassword = (password: string) => {
-    return password.length >= 8 && !password.includes(' ');
+  const validatePassword = (password: string): string | null => {
+    if (password.includes(' ')) return "Password must not contain whitespaces.";
+    if (!/[A-Z]/.test(password)) return "Password must have at least one uppercase character.";
+    if (!/[a-z]/.test(password)) return "Password must have at least one lowercase character.";
+    if (!/\d/.test(password)) return "Password must contain at least one digit.";
+    if (password.length < 8) return "Password must be at least 8 characters long.";
+    return null;
   };
 
   useEffect(() => {
-    setIsFormValid(validateEmail(email) && validatePassword(password));
+    setIsFormValid(validateEmail(email) && validatePassword(password) === null);
   }, [email, password]);
 
   const handleLogin = () => {
