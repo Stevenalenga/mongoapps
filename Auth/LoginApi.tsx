@@ -1,7 +1,9 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getRoot, getStatus, callApi, callApiWithAuth } from '../Api/Api';
 
-const API_BASE_URL = `${process.env.API_BASE_URL}/api/v3/login`;
+const API_BASE_URL = process.env.API_BASE_URL || 'http://192.168.88.129:8000';
+const LOGIN_API_URL = `${API_BASE_URL}/api/v3/login`;
 
 // Function to call the login endpoint and store JWT token
 export const login = async (username: string, password: string) => {
@@ -10,10 +12,11 @@ export const login = async (username: string, password: string) => {
         formData.append('username', username);
         formData.append('password', password);
 
-        const response = await axios.post(API_BASE_URL, formData, {
+        const response = await axios.post(LOGIN_API_URL, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
-            }
+            },
+            timeout: 5000 // Add a timeout of 5 seconds
         });
         const { access_token, token_type } = response.data;
         console.log('Login successful, token:', access_token);
@@ -22,6 +25,7 @@ export const login = async (username: string, password: string) => {
     } catch (error) {
         console.error('Error logging in:', error);
         if (axios.isAxiosError(error)) {
+            console.error('Axios error details:', error.toJSON());
             switch (error.response?.status) {
                 case 400:
                     console.error('Bad Request');

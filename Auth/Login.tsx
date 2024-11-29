@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, Text, TextInput, Alert } from 'react-native';
+import { View, TouchableOpacity, Text, TextInput, Alert, ActivityIndicator } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -15,6 +15,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const styles = createStyles();
 
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function Login() {
 
   const handleLogin = async () => {
     if (isFormValid) {
+      setLoading(true);
       try {
         const token = await login(email, password);
         console.log('Login successful, token:', token);
@@ -31,6 +33,7 @@ export default function Login() {
         navigation.navigate("MainTabs" as never);
       } catch (error) {
         if (error instanceof Error) {
+          console.error('Login error details:', error);
           if (error.message === 'Network Error') {
             Alert.alert('Network Error', 'Please check your internet connection and try again.');
           } else if (error.message === 'Incorrect username or password') {
@@ -41,6 +44,8 @@ export default function Login() {
         } else {
           Alert.alert('Login Failed', 'An unknown error occurred.');
         }
+      } finally {
+        setLoading(false);
       }
     } else {
       Alert.alert('Invalid Login', 'Please enter a valid email and password.');
@@ -84,10 +89,12 @@ export default function Login() {
       </View>
       <TouchableOpacity
         style={[styles.loginButton, !isFormValid && { opacity: 0.5 }]}
-        disabled={!isFormValid}
+        disabled={!isFormValid || loading}
         onPress={handleLogin}
       >
-        <Text style={styles.loginButtonText}>Log In</Text>
+        <Text style={styles.loginButtonText}>
+            {loading ? <ActivityIndicator size="small" color={theme.colors.text} /> : 'Log In'}
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity style={[styles.socialButton, styles.facebookButton]}>
         <FontAwesome name="facebook" size={24} style={styles.socialIcon} />
