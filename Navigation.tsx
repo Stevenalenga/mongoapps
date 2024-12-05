@@ -6,7 +6,7 @@ import SignUp from './Auth/SignUp';
 import MainTabs from './MainTabs';
 import NotificationsScreen from './Screens/NotificationsScreen';
 import MessagesWindow from './Screens/Messages/MessagesWindow';
-import Header from './Screens/Header/Header';
+import Header from './Components/Header/Header';
 import { RootStackParamList } from './navigation/types';
 
 // Define the stack navigator with type RootStackParamList

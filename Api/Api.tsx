@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.API_BASE_URL || 'http://192.168.88.129:8000';
+const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:8000';
 
 // Function to call the root endpoint
 export const getRoot = async () => {

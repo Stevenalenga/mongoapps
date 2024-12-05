@@ -2,8 +2,8 @@ import React, { useRef } from 'react';
 import { View, StyleSheet, PanResponder, Animated,TouchableOpacity } from 'react-native';
 import { useTheme } from '../../ThemeContext';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { LocationDetails } from '../Location/location';
-import SaveLocation from '../Location/LocationDetails'; 
+import { LocationDetails } from '../../Screens/Location/location';
+import SaveLocation from '../../Screens/Location/LocationDetails'; 
 
 interface DrawerProps {
   drawerVisible: boolean;
