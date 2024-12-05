@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity, View } from 'react-native';
 import HomeScreen from './Screens/HomeScreen';
 import ProfileScreen from './Screens/ProfileScreen';
-import SettingsScreen from './Screens/SettingsScreen';
+import SettingsScreen from './Screens/Settings/SettingsScreen';
 import MessagesScreen from './Screens/MessagesScreen';
 import { useTheme } from './ThemeContext';
 

@@ -1,6 +1,6 @@
 
 import { StyleSheet,Dimensions } from 'react-native';
-import { useTheme } from '../ThemeContext';
+import { useTheme } from '../../ThemeContext';
 
 
 

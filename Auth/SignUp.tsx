@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useTheme } from '../ThemeContext';
 import { signUp } from './SignUpApi';
-import createStyles from '../Styles/SignUpStyles';
+import createStyles from '../Screens/ScreenStyles/SignUpStyles';
 import { validateEmail, validatePassword } from '../Components/Validators'
 
 type RootStackParamList = {

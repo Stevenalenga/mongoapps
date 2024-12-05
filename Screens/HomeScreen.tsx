@@ -6,7 +6,7 @@ import {  Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { handleSearch, clearHistory } from '../Components/CustomMarker';
 import { Drawer } from '../Components/Drawer/Drawer';
-import createStyles from '../Styles/HomeScreenStyles';
+import createStyles from './ScreenStyles/HomeScreenStyles';
 import SearchBar from '../Components/SearchBar';
 
 export default function HomeScreen() {

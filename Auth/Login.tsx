@@ -6,7 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useTheme } from '../ThemeContext';
 import { login } from './LoginApi';
 import { validateEmail, validatePassword } from '../Components/Validators'
-import createStyles from '../Styles/LoginStyles';
+import createStyles from '../Screens/ScreenStyles/LoginStyles';
 
 export default function Login() {
   const navigation = useNavigation<StackNavigationProp<any>>();

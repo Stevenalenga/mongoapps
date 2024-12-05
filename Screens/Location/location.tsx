@@ -1,5 +1,7 @@
+
 import React from "react";
-import { View, Text, StyleSheet, FlatList, Image } from "react-native";
+import { View, Text,  FlatList, Image } from "react-native";
+import createStyles from '../ScreenStyles/LocationStyles';
 
 interface Comment {
   id: string;
@@ -16,6 +18,7 @@ interface LocationDetailsProps {
 }
 
 export function LocationDetails({ name, description, comments }: LocationDetailsProps) {
+  const styles = createStyles();
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -45,62 +48,3 @@ export function LocationDetails({ name, description, comments }: LocationDetails
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "#fff",
-    borderLeftWidth: 1,
-    borderColor: "#ccc",
-  },
-  header: {
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  description: {
-    fontSize: 14,
-    color: "#666",
-  },
-  separator: {
-    height: 1,
-    backgroundColor: "#ccc",
-    marginVertical: 16,
-  },
-  commentsHeader: {
-    fontSize: 18,
-    fontWeight: "600",
-    marginBottom: 8,
-  },
-  scrollArea: {
-    flexGrow: 0,
-  },
-  commentContainer: {
-    marginBottom: 16,
-  },
-  commentHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 8,
-  },
-  userName: {
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  date: {
-    fontSize: 12,
-    color: "#666",
-  },
-  commentText: {
-    fontSize: 14,
-  },
-});
