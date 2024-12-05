@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { View, FlatList, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, Text, RefreshControl } from 'react-native';
-import { useTheme } from '../ThemeContext';
-import MessageBox from '../Screens/Messages/MessagesBox';
-import { Contact } from '../navigation/types';
+import { useTheme } from '../../ThemeContext';
+import MessageBox from './MessagesBox';
+import { Contact } from '../../navigation/types';
 import { FontAwesome } from '@expo/vector-icons';
 
 // Sample data for the list of messages

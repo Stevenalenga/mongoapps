@@ -6,7 +6,7 @@ import { TouchableOpacity, View } from 'react-native';
 import HomeScreen from './Screens/HomeScreen';
 import ProfileScreen from './Screens/ProfileScreen';
 import SettingsScreen from './Screens/Settings/SettingsScreen';
-import MessagesScreen from './Screens/MessagesScreen';
+import MessagesScreen from './Screens/Messages/MessagesScreen';
 import { useTheme } from './ThemeContext';
 
 
