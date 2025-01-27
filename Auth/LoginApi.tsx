@@ -11,7 +11,7 @@ export const login = async (username: string, password: string) => {
         const formData = new FormData();
         formData.append('username', username);
         formData.append('password', password);
-
+/*
         const response = await axios.post(LOGIN_API_URL, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -22,6 +22,7 @@ export const login = async (username: string, password: string) => {
         console.log('Login successful, token:', access_token);
         await AsyncStorage.setItem('jwtToken', access_token);
         return { access_token, token_type };
+        */
     } catch (error) {
         console.error('Error logging in:', error);
         if (axios.isAxiosError(error)) {

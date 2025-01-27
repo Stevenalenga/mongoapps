@@ -44,10 +44,10 @@ export const Drawer = ({ drawerVisible, setDrawerVisible, selectedLocation }: Dr
 
   return (
     <Animated.View 
-      style={[styles.drawer, { transform: [{ translateY: drawerHeight }] }]}
+      style={[styles.drawer, { transform: [{ translateY: drawerHeight }], backgroundColor: theme.colors.background }]}
       {...panResponder.panHandlers}
     >
-      <View style={styles.drawerHandle} />
+      <View style={[styles.drawerHandle, { backgroundColor: theme.colors.primary }]} />
       <TouchableOpacity 
                 onPress={() => SaveLocation()} 
                 style={{ marginRight: 15 }}
@@ -55,7 +55,7 @@ export const Drawer = ({ drawerVisible, setDrawerVisible, selectedLocation }: Dr
                 <Icon 
                   name="add-circle-outline" 
                   size={40} 
-                  color={theme.colors.text} 
+                  color={theme.colors.text || '#000'} // Fallback color
                 />
               </TouchableOpacity>
       <LocationDetails 
@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: '50%',
-    backgroundColor: '#fff',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 20,
@@ -85,7 +84,6 @@ const styles = StyleSheet.create({
   drawerHandle: {
     width: 40,
     height: 5,
-    backgroundColor: '#ccc',
     borderRadius: 2.5,
     alignSelf: 'center',
     marginBottom: 10,

@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import { View } from 'react-native';
 import { DefaultTheme, DarkTheme as NavigationDarkTheme, Theme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -78,7 +79,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   return (
     <ThemeContext.Provider value={{ theme, themeType, setThemeType: setThemeTypeAndSave }}>
-      {children}
+      <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+        {children}
+      </View>
     </ThemeContext.Provider>
   );
 };
