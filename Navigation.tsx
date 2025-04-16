@@ -7,6 +7,10 @@ import MainTabs from './MainTabs';
 import NotificationsScreen from './Screens/NotificationsScreen';
 import MessagesWindow from './Screens/Messages/MessagesWindow';
 import Header from './Components/Header/Header';
+import ProfileSettings from './Screens/Settings/ProfileSettings';
+import TermsOfService from './Screens/Settings/TermsofService';
+import PrivacyPolicy from './Screens/Settings/PrivacyPolicy';
+import LocationSettings from './Screens/Settings/LocationSettings';
 import { RootStackParamList } from './navigation/types';
 
 // Define the stack navigator with type RootStackParamList
@@ -19,6 +23,10 @@ export default function Navigation() {
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="MainTabs" component={MainTabs} />
       <Stack.Screen name="Notifications" component={NotificationsScreen} />
+      <Stack.Screen name="ProfileSettings" component={ProfileSettings} />
+      <Stack.Screen name="TermsOfService" component={TermsOfService} />
+      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+      <Stack.Screen name="LocationSettings" component={LocationSettings} />
       <Stack.Screen 
         name="MessagesWindow" 
         component={MessagesWindow}  
